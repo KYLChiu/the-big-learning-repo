@@ -5,6 +5,7 @@ from typing import final
 import numpy as np
 
 
+# this might be useless
 class RandomNumberType(Enum):
     NUMPY = "NUMPY"
     PSEUDO_RANDOM = "PSEUDO_RANDOM"
@@ -12,6 +13,9 @@ class RandomNumberType(Enum):
 
 
 class RandomBase(abc.ABC):
+    def __init__(self, dimension: int = 1):
+        self._dim = dimension
+
     @abc.abstractmethod
     def get_uniforms(self):
         pass
@@ -20,19 +24,23 @@ class RandomBase(abc.ABC):
     def set_seed(self):
         pass
 
-    def get_gaussian(self) -> float:
+    def get_gaussian(self):
         """
-        Cheating right now - using python package
-        returns a single standard normal rv
+        returns a vector of standard normal rv's
         """
-        return np.random.normal()
+        return np.random.normal(loc=0, scale=1, size=self._dim)
+
+    def reset_dimension(self, dimension: int):
+        if dimension <= 0:
+            raise ValueError(f"Check dimension input: dimension={dimension}")
+        self._dim = dimension
 
 
 @final
 class TestRandom(RandomBase):
-    def __init__(self, random_number_type: RandomNumberType):
-        """Dummy class"""
-        self._random_number_type = random_number_type.value
+    def __init__(self, dimension: int = 1):
+        """Dummy class: need to be renamed!"""
+        super().__init__(dimension=dimension)
 
     def get_uniforms(self):
         raise Exception("Not implemented")

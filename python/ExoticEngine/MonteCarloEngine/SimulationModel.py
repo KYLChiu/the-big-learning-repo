@@ -62,8 +62,7 @@ class BSModel(Model):
         ) * dt
         # recall by Ito isometry: Ito integral of f(t) has variance int f(t)^2 dt
         diffusion = (
-            self._vol.get_root_mean_square(t1, t2)
-            * np.sqrt(dt)
-            * self._RNG.get_gaussian()
+            self._vol.get_square_integral(t1, t2)
+            * self._RNG.get_gaussian()[0]  # bad design?
         )
         return self._spot * (np.exp(drift + diffusion) - 1)

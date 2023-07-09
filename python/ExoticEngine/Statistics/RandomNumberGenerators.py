@@ -20,9 +20,10 @@ class RandomBase(abc.ABC):
     def get_uniforms(self):
         pass
 
-    @abc.abstractmethod
+    # @abc.abstractmethod
     def set_seed(self):
-        pass
+        # CY: do I need to return this and ideally where should I define the seed?
+        return np.random.seed(1)
 
     def get_gaussian(self):
         """
@@ -45,5 +46,3 @@ class TestRandom(RandomBase):
     def get_uniforms(self):
         raise Exception("Not implemented")
 
-    def set_seed(self):
-        raise Exception("Not implemented")
